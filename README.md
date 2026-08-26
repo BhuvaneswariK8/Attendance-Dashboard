@@ -1,12 +1,12 @@
 # 📊 Real-Time Attendance Dashboard & Management System
 
-An interactive, automated student attendance tracking and analytics dashboard built with **Python**, **OpenCV**, and **Streamlit**. This application processes facial recognition/camera attendance logs and generates real-time visual summaries and class-level statistics.
+An interactive, automated student attendance tracking and analytics dashboard built with **Python**, **OpenCV**, and **Streamlit**. This application processes attendance logs and generates real-time visual summaries and class-level statistics.
 
 ---
 
 ## 🚀 Features
 
-- **Automated Logging:** Captures and logs timestamps and attendance status for registered individuals.
+- **Logging:** Records the attendance class wise, and shows the reports with date.
 - **Interactive Visualizations:** View class-wise attendance rates, daily trends, and absent/present ratios using Streamlit.
 - **Multi-Class Support:** Segregates and parses attendance records across multiple classes (`class1.csv`, `class2.csv`, `class3.csv`).
 - **Export & Analytics:** Real-time data aggregation with downloadable summary reports.
