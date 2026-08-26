@@ -6,7 +6,6 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-# --- Credentials ---
 admin_password = "admin123"
 
 class_passwords = {
@@ -18,7 +17,6 @@ today_date = datetime.date.today().strftime("%Y-%m-%d")
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
-# --- HELPER: WIPE CHECKBOX WIDGET CACHE ---
 def clear_widget_cache():
     """Removes all cached checkbox widget states from session memory."""
     for key in list(st.session_state.keys()):
@@ -26,7 +24,6 @@ def clear_widget_cache():
             del st.session_state[key]
 
 
-# --- ADMIN FUNCTIONS ---
 
 def take_attendance_admin():
     st.header("Admin - Take Attendance")
@@ -55,7 +52,7 @@ def take_attendance_admin():
     if today_date not in df.columns:
         df[today_date] = "A"
 
-    # Real-Time Metric Counters
+    
     total_students = len(df)
     present_count = int((df[today_date].astype(str).str.strip().str.upper() == 'P').sum())
     absent_count = total_students - present_count
@@ -65,7 +62,7 @@ def take_attendance_admin():
     col2.metric("Present", present_count)
     col3.metric("Absent", absent_count)
 
-    # Admin Quick Action Buttons
+
     b1, b2 = st.columns(2)
     if b1.button(" Mark All Present", key=f"admin_all_p_{class_name}"):
         df[today_date] = 'P'
@@ -83,7 +80,7 @@ def take_attendance_admin():
             st.session_state[f"check_admin_{class_name}_{roll_no}_{today_date}"] = False
         st.rerun()
 
-    # Admin Checklist Form
+    
     with st.form(f"admin_attendance_form_{class_name}"):
         marked_attendance = {}
         st.write("**Student Checklist:**")
@@ -170,9 +167,6 @@ def remove_class_admin():
             st.success(f"Class '{class_to_remove}' removed successfully!")
             st.rerun()
 
-
-# --- MAIN APPLICATION ---
-
 def main():
     if "admin_authenticated" not in st.session_state:
         st.session_state["admin_authenticated"] = False
@@ -184,7 +178,7 @@ def main():
     st.sidebar.title("Navigation")
     portal = st.sidebar.radio("Select Portal", ["Class Teacher Portal", "Admin Portal"])
 
-    # ================= 1. TEACHER PORTAL =================
+    
     if portal == "Class Teacher Portal":
         if not st.session_state["teacher_authenticated"]:
             st.header("Teacher Login")
@@ -225,7 +219,7 @@ def main():
             if today_date not in df.columns:
                 df[today_date] = 'A'
 
-            # Metric Summary
+        
             total_students = len(df)
             present_count = int((df[today_date].astype(str).str.strip().str.upper() == 'P').sum())
             absent_count = total_students - present_count
@@ -235,7 +229,7 @@ def main():
             c2.metric("Present", present_count)
             c3.metric("Absent", absent_count)
 
-            # Quick Action Buttons
+            
             b1, b2 = st.columns(2)
             if b1.button(" Mark All Present", key=f"t_all_p_{class_name}"):
                 df[today_date] = 'P'
@@ -253,7 +247,7 @@ def main():
                     st.session_state[f"check_teacher_{class_name}_{roll_no}_{today_date}"] = False
                 st.rerun()
 
-            # Teacher Checklist Form
+            
             with st.form(f"teacher_attendance_form_{class_name}"):
                 marked_attendance = {}
                 st.write("**Student Checklist:**")
@@ -280,7 +274,7 @@ def main():
                     st.success(f"Attendance for {today_date} saved successfully!")
                     st.rerun()
 
-            # Summary Table
+            
             st.divider()
             with st.expander("View Attendance Summary Table"):
                 summary_df = df[['Roll_No', 'Name', today_date]].copy()
@@ -293,7 +287,7 @@ def main():
                 st.session_state["class_name"] = None
                 st.rerun()
 
-    # ================= 2. ADMIN PORTAL =================
+    
     elif portal == "Admin Portal":
         if not st.session_state["admin_authenticated"]:
             st.header("Admin Login")
